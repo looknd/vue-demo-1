@@ -1,3 +1,5 @@
+require('./assets/scss/common.scss');
+
 import Vue from 'vue';  //vue
 import VueRouter from 'vue-router'; //vue-router路由
 import routerMap from './routers'; //路由配置文件
