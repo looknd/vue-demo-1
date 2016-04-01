@@ -1,11 +1,12 @@
 
+
 <template>
   <div>
     <div class="app-container">
-      <div class="v-home">
-          <h1><img src="../assets/images/logo.png"></h1>
-          <p>这是一个学习VUE-DEMO</p>
-          <p>使用:Vue+Webpack+ES6+Vue-Router</p>
+      <div class="v-text">
+         <p>
+          &lt; >~!@#$%^&*()__+?{}|\ 如果模板中有 &lt; 此字符，需要使用:'&+lt;'  那么在压缩的时候会报错
+         </p>     
       </div>    
     </div>
   </div>
@@ -15,7 +16,7 @@
     export default {
         data() {
          return{
-           title:'Home',
+           title:'测试字符',
          }
         },
         route:{
@@ -28,8 +29,3 @@
 
     }
 </script>
-<style lang="sass" scoped>
-   .v-home{
-    text-align:center;
-   }
-</style>

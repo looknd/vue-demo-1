@@ -1,7 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin'); //自动生成带hash的HTML 文件
-
+var ExtractTextPlugin = require("extract-text-webpack-plugin");   //独立样式文件
 
 module.exports = {
 
@@ -11,12 +11,13 @@ module.exports = {
     // 输出配置
     output: {
         // 输出路径是
-        path: path.join(__dirname, '/static'),
-        publicPath: 'static/',
+        path: path.join(__dirname, '/dist'),
+        publicPath: 'dist/',
         filename: '[name].[hash].js',
         chunkFilename: '[id].[chunkhash].js'
     },
 
+    // 添加的module属性
     module: {
         loaders: [
             // 使用vue-loader 加载 .vue 结尾的文件
@@ -32,11 +33,16 @@ module.exports = {
                 // exclude: /node_modules|vue\/src|vue-router\/|vue-loader\/|vue-hot-reload-api\//,
             }, {
                 test: /\.css$/,
-                loader: "css-loader?sourceMap!cssnext-loader"
+                // loader: "css-loader?sourceMap!cssnext-loader"
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader?sourceMap!cssnext-loader")
             }, {
                 test: /\.scss$/,
-                loader: "css-loader?sourceMap!sass-loader!cssnext-loader"
-            }
+                // loader: "css-loader?sourceMap!sass-loader!cssnext-loader"
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader?sourceMap!sass-loader!cssnext-loader")
+            }, {
+                test: /\.(png|jpg)$/, 
+                loader: 'url-loader?limit=8192'
+            }, // 内联 base64 URLs, 限定 <=8k 的图片, 其他的用 URL
         ]
     },
 
@@ -59,10 +65,17 @@ module.exports = {
        */
         new HtmlWebpackPlugin({
             title: 'My VueDemo',
-            filename: '../index.html',
+            filename: '../index.html', //会生成d.html在根目录下,并注入脚本
             template: path.resolve(__dirname, './index.tpl'),
-            inject: true
-        })
+            inject: true //此参数必须加上，不加不注入
+        }),
+
+        //会将所有的样式文件打包成一个单独的style.css
+        new ExtractTextPlugin("style.[hash].css" , {
+           disable: false,
+           allChunks: true  //所有独立样式打包成一个css文件
+        }),
+
     ],
 
     stats: {
