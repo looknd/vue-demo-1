@@ -1,7 +1,8 @@
 # learn-vue-webpack demo
 
 
-
+## 目录结构
+<pre>
 │  .gitignore
 │  favicon.ico
 │  index.html
@@ -28,3 +29,4 @@
 └─test
         test.js
         
+</pre>
