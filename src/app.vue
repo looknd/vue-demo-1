@@ -15,12 +15,12 @@
       <a v-link="{ name: 'async' }">动态组件载入 lazy load</a>
       <a v-link="{ name: 'async_loading' }">动态组件载入 lazy load(阻塞)，点击先请求数据，请求完毕后(3s)切换</a>
       <a v-link="{ name: 'text' }">测试字符</a>
+      <a v-link="{ name: 'alert-text' }">弹窗Model</a>
     </nav>
 
     <nav class="app-menu">
       <a class="test-btn" @click.prevent="show=true">alert</a>
-
-      <a class="test-btn" @click.prevent="show=true">alert2</a>
+      <a class="test-btn" @click.prevent="openAlert()">alert-two</a>
     </nav>
 
     <alert :show.sync="show"
@@ -33,8 +33,7 @@
 
 <script>
 
-  import alert from './components/alert.vue' ;
-
+  import Alert from './components/alert.vue';
 
   export default {
      data() {
@@ -42,7 +41,7 @@
         effect: 'fade',
         show : false,
         alert:{
-          // title : '测试标题',
+          title : '测试标题',
           content : '测试内容'
         }
         
@@ -50,7 +49,14 @@
 
      },
      components:{
-        alert:alert
+        alert:Alert
+     },
+     methods:{
+        openAlert:function(argument) {
+          this.show = true;
+          this.alert.title = '信息';
+          this.alert.content = '显示我想告诉你一件事';
+        }
      }
 
   }
