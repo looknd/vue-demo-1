@@ -5,6 +5,7 @@ import my_views_detail from './views/my_views_detail.vue';
 import image from './views/image.vue';
 import forbidden from './views/forbidden.vue';
 import text from './views/text.vue';
+import alertText from './views/alert-test.vue';
 
 
 export default function(router) {
@@ -44,6 +45,10 @@ export default function(router) {
 		'/text': {
 			name:'text',
 			component: text,
+		},
+		'/alert-text': {
+			name:'alert-text',
+			component: alertText,
 		},
 		// not found handler
 	    '*': {
