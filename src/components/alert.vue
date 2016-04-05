@@ -1,17 +1,23 @@
 <template>
-<div class="v-dimmer" v-show="show" transition="modal"></div>
-<div class="v-modal" v-show="show" transition="modal">
-	<div class="v-modal-header">
-		<h3 class="v-modal-header-t" 
-			v-show="title!==''" 
-			v-text="title">
-		</h3>
-		<p class="v-modal-header-c" v-text="content"></p>
-	</div>
-	<div class="v-modal-footer">
-		<a class="v-modal-footer-btn" @click.prevent="show=false">确定</a>
-	</div>
-</div>
+
+ <div class="modal-mask" v-show="show" transition="modal">
+    <div class="modal-wrapper">
+      <div class="modal-container">
+
+        <div class="modal-header">
+			<h3 class="modal-header-t" 
+				v-show="title!==''" 
+				v-text="title">
+			</h3>
+			<p class="modal-header-c" v-text="content"></p>
+		</div>
+		<div class="modal-footer">
+			<a class="modal-footer-btn" @click="onHide">确定</a>
+		</div>
+
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -22,58 +28,75 @@ export default {
 			twoWay : true
 		},
 		title : {
-			type : String
+			type : String,
+			required: true
 		},
 		content : {
 			type : String
 		}
-	}
+	},
+	methods: {
+	    onHide: function () {
+	      this.show = false;
+	      this.$dispatch('hide');
+	    }
+    },
+	ready(){
+        var modalC = document.querySelectorAll(".modal-container"),
+	    widthC = window.innerWidth * (4/5);
+
+	    for (var i = 0; i < modalC.length; i++) {
+	      modalC[i].style.width = widthC +'px'
+	    }
+	},
 }
 </script>
 
 
 <style lang="sass">
-.v-dimmer{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,.5);
-    z-index: 999;
-    pointer-events: none;
-     transition: opacity .3s ease;
-}
 
-.v-modal{
+.modal-mask {
 	position: fixed;
-	width: 80%;
-	top: 50%;
-	left: 50%;
-	background-color: #fafafa;
-	border-radius: 3px;
-	z-index: 1000;
-	-webkit-transform: translate(-50%,-50%);
-	transform: translate(-50%,-50%);
-	transition: all .3s ease;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .5);
+	display: table;
+	transition: opacity .3s ease;
 
-	.v-modal-header {
+    .modal-wrapper {
+	  display: table-cell;
+	  vertical-align: middle;
+	}
+
+	.modal-container {
+	  // width: 300px;
+	  margin: 0px auto;
+	  background-color: #fff;
+	  border-radius: 2px;
+	  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+	  transition: all .3s ease;
+
+
+	  .modal-header {
 	    padding: 15px 10px;
 
-	    .v-modal-header-t{
+	    .modal-header-t{
 		    margin-bottom: 15px;
 		    color: rgba(0,0,0,.87);
 		    font-size: 16px;
 		    text-align: center;
 		}
 
-		.v-modal-header-c {
+		.modal-header-c {
 		    line-height: 22px;
 		    color: rgba(0,0,0,.54);
 		}
 	}
 
-	.v-modal-footer {
+	 .modal-footer {
 	    position: relative;
 	    display: table;
 	    width: 100%;
@@ -94,7 +117,7 @@ export default {
 			z-index: 1001;
 		}
 
-	    .v-modal-footer-btn{
+	    .modal-footer-btn{
 			position: relative;
 			display: table-cell;
 			height: 44px;
@@ -105,7 +128,7 @@ export default {
 			overflow: hidden;
 	    }
 	}
-
+	}
 }
 
 .modal-enter, .modal-leave {
