@@ -1,3 +1,20 @@
+//先清空 n-build 文件夹下的文件
+var fs = require('fs'),
+    buildPath='./dist/';
+var folder_exists = fs.existsSync(buildPath);
+
+if(folder_exists == true){
+   var dirList = fs.readdirSync(buildPath);
+   dirList.forEach(function(fileName)
+   {
+       fs.unlinkSync(buildPath + fileName);
+   });
+   console.log("clearing " + buildPath);
+};
+
+
+
+
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin'); //自动生成带hash的HTML 文件
